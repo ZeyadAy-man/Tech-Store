@@ -1,23 +1,22 @@
-/* ContactPage.module.css */
-:root{
-  --cyan: #00d1ff;
-  --cyan-2: #00aaff;
-  --glass: rgba(255,255,255,0.07);
-  --glass-2: rgba(0,255,255,0.06);
+:root {
+  --cyan: #0a84ff;
+  --cyan-2: rgb(0, 162, 243);
+  --glass: rgba(255, 255, 255, 1);
+  --glass-2: rgba(255, 255, 255, 1);
   --text: #eaf7ff;
   --muted: rgba(255,255,255,0.6);
-  --card-radius: 18px;
+  --card-radius: 20px;
   --fw: 600;
 }
 
-*{box-sizing:border-box}
-body,html,#root{height:100%}
+* { box-sizing: border-box; }
+body, html, #root { height: 100%; }
 
-.page{
+.page {
   min-height:100vh;
-  background: linear-gradient(180deg,#fcfeff 0%, #f1fbff 100%); /* soft white base to let cyan glow show */
+  background: linear-gradient(180deg,#59acef 0%, #000000 100%);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color: #052028;
+  color: var(--text);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -26,56 +25,44 @@ body,html,#root{height:100%}
   overflow:hidden;
 }
 
-/* -------- Tech grid neon pulsing background (full screen) -------- */
-.gridBackground{
-  position:fixed;
-  inset:0;
-  z-index:0;
+/* -------- Animated neon tech grid background -------- */
+.gridBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   background:
-    radial-gradient(circle at 10% 10%, rgba(0,209,255,0.03) 0%, transparent 15%),
-    radial-gradient(circle at 90% 80%, rgba(0,170,255,0.03) 0%, transparent 15%),
-    linear-gradient(180deg, rgba(12,24,30,0.02), rgba(12,24,30,0.01));
-  pointer-events:none;
+    radial-gradient(circle at 20% 20%, rgba(0,209,255,0.05), transparent 15%),
+    radial-gradient(circle at 80% 80%, rgba(0,170,255,0.05), transparent 15%);
+  pointer-events: none;
+  animation: pulseBG 10s ease-in-out infinite alternate;
+}
+@keyframes pulseBG {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
-/* overlay grid lines using pseudo element effect */
-.gridBackground::before{
+/* overlay grid lines using pseudo element */
+.gridBackground::before {
   content:"";
   position:absolute;
   inset:0;
   background-image:
-    linear-gradient(transparent 0 95%, rgba(0,170,255,0.06) 96%),
-    linear-gradient(90deg, transparent 0 95%, rgba(0,210,255,0.04) 96%);
+    linear-gradient(transparent 0 95%, rgba(0,170,255,0.07) 96%),
+    linear-gradient(90deg, transparent 0 95%, rgba(0,210,255,0.05) 96%);
   background-size: 60px 60px, 60px 60px;
   opacity:0.9;
-  mix-blend-mode: normal;
-  animation: gridPulse 4.5s linear infinite;
-  transform: translateZ(0);
-}
-@keyframes gridPulse{
-  0%{ filter: drop-shadow(0 0 0 rgba(0,170,255,0)); background-position:0 0,0 0;}
-  50%{ filter: drop-shadow(0 0 18px rgba(0,170,255,0.18)); background-position:30px 30px,30px 30px;}
-  100%{ filter: drop-shadow(0 0 0 rgba(0,170,255,0)); background-position:0 0,0 0;}
-}
-
-/* faint moving diagonal neon lines for depth */
-.gridBackground::after{
-  content:"";
-  position:absolute;
-  inset: -30% -30%;
-  background-image: linear-gradient(120deg, rgba(0,210,255,0.02) 0 10%, transparent 60%);
-  opacity:0.8;
-  animation: slideLines 10s linear infinite;
   mix-blend-mode: overlay;
+  animation: gridPulse 4.5s linear infinite;
 }
-@keyframes slideLines{
-  0%{ transform: translateX(-20%); }
-  100%{ transform: translateX(20%); }
+@keyframes gridPulse {
+  0%{ background-position:0 0,0 0;}
+  50%{ background-position:30px 30px,30px 30px;}
+  100%{ background-position:0 0,0 0;}
 }
 
-/* -------- main center wrap (keeps card on top) -------- */
-.wrap{
-  position:relative;
+/* -------- Main center wrap -------- */
+.wrap {
+  position: relative;
   z-index: 5;
   width:100%;
   max-width:1100px;
@@ -85,137 +72,162 @@ body,html,#root{height:100%}
   padding: 40px;
 }
 
-/* -------- floating glass card -------- */
-.card{
+/* -------- Floating Glass Card -------- */
+.card {
   width: 860px;
   max-width: calc(100% - 48px);
-  border-radius: calc(var(--card-radius) + 6px);
-  padding: 28px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,255,255,0.72));
+  border-radius: var(--card-radius);
+  padding: 30px;
+  background: linear-gradient(180deg, rgba(0,20,30,0.6), rgba(0,30,50,0.3));
   box-shadow:
-    0 20px 60px rgba(3,18,30,0.18),
-    0 6px 18px rgba(0,170,255,0.06) inset;
-  border: 1px solid rgba(255,255,255,0.6);
-  backdrop-filter: blur(10px) saturate(120%);
-  transform: translateY(-6px);
+    0 20px 50px rgba(0,210,255,0.15),
+    0 10px 30px rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,255,255,0.2);
+  backdrop-filter: blur(16px) saturate(150%);
+  transform: translateY(-6px) perspective(800px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
   overflow: hidden;
 }
+.card:hover {
+  transform: translateY(-10px) perspective(800px) rotateX(2deg) rotateY(2deg);
+  box-shadow: 0 30px 60px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.35);
+}
 
-/* inner darker cyan frost to simulate cyan-frost glass */
-.cardInner{
+/* inner cyan frost glass */
+.cardInner {
   border-radius: 14px;
   padding: 28px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,200,255,0.03));
-  border: 1px solid rgba(0,200,255,0.06);
-  box-shadow: 0 8px 30px rgba(3,18,30,0.08);
+  background: linear-gradient(180deg, rgba(0,255,255,0.06), rgba(0,210,255,0.03));
+  border: 1px solid rgba(0,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
   position: relative;
   z-index:2;
 }
 
-/* subtle scanline overlay */
-.card::before{
+/* scanline overlay */
+.card::before {
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.0) 40%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(180deg, rgba(0,255,255,0.04) 0%, transparent 50%, rgba(0,255,255,0.04) 100%);
   mix-blend-mode: overlay;
   z-index:1;
 }
-.scanLine{
+.scanLine {
   position:absolute;
-  left:-40%;
+  left:-50%;
   top:-10%;
-  width:160%;
-  height:30%;
+  width:200%;
+  height:40%;
   background: linear-gradient(90deg, transparent, rgba(0,210,255,0.12), transparent);
-  transform: rotate(-20deg);
-  filter: blur(10px);
+  transform: rotate(-25deg);
+  filter: blur(12px);
   opacity:0.9;
-  animation: scan 3.8s linear infinite;
+  animation: scan 4s linear infinite;
   z-index:3;
   pointer-events:none;
 }
-@keyframes scan{
-  0%{ transform: translateX(-120%) rotate(-20deg); opacity:0; }
+@keyframes scan {
+  0%{ transform: translateX(-120%) rotate(-25deg); opacity:0; }
   10%{ opacity:0.35 }
-  50%{ transform: translateX(0%) rotate(-20deg); opacity:0.65 }
+  50%{ transform: translateX(0%) rotate(-25deg); opacity:0.65 }
   90%{ opacity:0.25 }
-  100%{ transform: translateX(120%) rotate(-20deg); opacity:0; }
+  100%{ transform: translateX(120%) rotate(-25deg); opacity:0; }
 }
 
 /* header */
-.header{ margin-bottom: 12px; text-align:left; position:relative; z-index:4; }
-.title{ margin:0; font-size:28px; color:#012228; font-weight:800;}
-.subtitle{ margin:6px 0 0 0; color: #08444f; opacity:0.9; font-size:14px; }
+.header { margin-bottom: 16px; text-align:left; position:relative; z-index:4; }
+.title { margin:0; font-size:34px; color: var(--cyan); font-weight:900; text-shadow: 0 0 6px rgba(0,210,255,0.7); }
+.subtitle { margin:6px 0 0 0; color: var(--text); opacity:0.85; font-size:17px; }
 
 /* form */
-.form{ margin-top:14px; display:block; position:relative; z-index:4; }
-.row{ display:flex; gap:12px; }
-.field{ flex:1; display:flex; flex-direction:column; margin-bottom:12px; }
-.fieldFull{ display:flex; flex-direction:column; margin-bottom:12px; }
-.labelText{ font-size:12px; color:#005166; margin-bottom:6px; font-weight:600; letter-spacing:0.2px; }
+.form { margin-top:14px; display:block; position:relative; z-index:4; }
+.row { display:flex; gap:12px; flex-wrap:wrap; }
+.field, .fieldFull { display:flex; flex-direction:column; margin-bottom:12px; flex:1; }
+.labelText { font-size:14px; color: var(--muted); margin-bottom:6px; font-weight:600; letter-spacing:0.2px; text-shadow:0 0 4px rgba(0,255,255,0.2); }
 
-/* inputs styles */
-.input, .textarea{
+/* input & textarea */
+.input, .textarea {
   width:100%;
-  padding:12px 14px;
-  border-radius:10px;
-  border: 1px solid rgba(2,10,14,0.06);
-  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.90));
-  color: #012228;
+  padding:14px 16px;
+  border-radius:12px;
+  border: 1px solid rgba(0,255,255,0.3);
+  background: rgba(0,20,30,0.4);
+  color: var(--text);
   outline:none;
-  font-size:14px;
-  transition: box-shadow .15s ease, border-color .15s ease, transform .12s ease;
+  font-size:16px;
+  transition: all .3s ease;
+  box-shadow: 0 0 8px rgba(0,255,255,0.15) inset;
 }
-.input:focus, .textarea:focus{
-  box-shadow: 0 6px 20px rgba(0,170,255,0.12);
-  border-color: var(--cyan-2);
+.input:focus, .textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 18px var(--cyan), 0 0 8px rgba(0,255,255,0.25) inset;
   transform: translateY(-1px);
 }
-.textarea{ min-height:120px; resize:vertical; }
+.textarea { min-height:140px; resize:vertical; }
 
 /* actions */
-.actions{ display:flex; gap:16px; align-items:center; margin-top:8px; }
-.sendBtn{
+.actions { display:flex; gap:16px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+.sendBtn {
   background: linear-gradient(90deg, var(--cyan), var(--cyan-2));
-  color: #012228;
-  padding:12px 18px;
-  border-radius:12px;
+  color:#012228;
+  padding:14px 20px;
+  border-radius:14px;
   border:none;
   cursor:pointer;
   font-weight:700;
-  box-shadow: 0 14px 40px rgba(0,170,255,0.12);
-  transition: transform .12s ease, box-shadow .18s ease;
+  box-shadow: 0 14px 40px rgba(0,170,255,0.25);
+  transition: transform .2s ease, box-shadow .25s ease;
+  text-shadow:0 0 4px #fff;
+}
+.sendBtn:hover { 
+  transform: scale(1.05) translateY(-1px);
+  box-shadow: 0 20px 60px rgba(0,210,255,0.35), 0 10px 30px rgba(0,0,0,0.4);
 }
 .sendBtn:active{ transform: translateY(1px); }
 .sendBtn:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
 
 /* quick contact links */
-.quick{ margin-left:auto; display:flex; gap:8px; align-items:center; }
-.quickLink{ color: #02363f; background: rgba(0,210,255,0.07); padding:8px 10px; border-radius:10px; text-decoration:none; font-size:13px; }
+.quick { margin-left:auto; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.quickLink {
+  color: var(--cyan);
+  background: rgba(0,210,255,0.07);
+  padding:10px 14px;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:600;
+  transition: all .2s ease;
+}
+.quickLink:hover {
+  color:#fff;
+  background: rgba(0,210,255,0.18);
+  text-shadow:0 0 8px var(--cyan);
+}
 
 /* footer badge */
-.footer{ margin-top:18px; position:relative; z-index:4; display:flex; align-items:center; justify-content:space-between; }
-.badge{
-  padding:8px 12px;
+.footer { margin-top:22px; position:relative; z-index:4; display:flex; align-items:center; justify-content:space-between; }
+.badge {
+  padding:8px 14px;
   border-radius:999px;
-  background: linear-gradient(90deg, rgba(0,210,255,0.12), rgba(0,170,255,0.08));
-  color:#01353b;
+  background: rgba(0,210,255,0.1);
+  color:#00faff;
   font-weight:700;
-  font-size:13px;
-  border:1px solid rgba(0,210,255,0.06);
+  font-size:15px;
+  border:1px solid rgba(0,210,255,0.12);
+  text-shadow:0 0 6px var(--cyan);
 }
 
 /* alerts */
-.alertSuccess{ background: linear-gradient(90deg, rgba(0,255,180,0.06), rgba(0,255,180,0.02)); padding:10px; border-radius:10px; color:#04382f; margin-bottom:8px; }
-.alertError{ background: linear-gradient(90deg, rgba(255,80,80,0.06), rgba(255,80,80,0.02)); padding:10px; border-radius:10px; color:#4b1313; margin-bottom:8px; }
+.alertSuccess { background: rgba(0,255,180,0.12); padding:10px; border-radius:12px; color:#00f0c0; margin-bottom:8px; font-weight:600; }
+.alertError { background: rgba(255,80,80,0.12); padding:10px; border-radius:12px; color:#ff5454; margin-bottom:8px; font-weight:600; }
 
 /* responsive */
-@media (max-width: 920px){
-  .card{ width: 94%; padding:18px; }
-  .row{ flex-direction:column; }
-  .wrap{ padding:20px; }
-  .title{ font-size:22px; }
+@media (max-width: 920px) {
+  .card { width: 94%; padding:22px; }
+  .row { flex-direction:column; }
+  .wrap { padding:20px; }
+  .title { font-size:28px; }
 }
