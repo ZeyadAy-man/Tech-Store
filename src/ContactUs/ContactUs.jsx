@@ -290,7 +290,7 @@ function AnimatedModel({ message, robotPositionStatus }) {
     >
       <primitive object={gltf.scene} />
       <Html
-        position={[0.2, 0.85, 0]}
+        position={[0.05, 0.95, 0]}
         center
         transform
         distanceFactor={1}
