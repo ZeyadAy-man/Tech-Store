@@ -16,6 +16,6 @@ export default function ModelLoader({ props, url }) {
       firstAction.play();
     }
   }, [actions]);
-
-  return <primitive ref={group} object={scene} {...props} />;
+  console.log(props.scale)
+  return <primitive ref={group} object={scene} scale={props.scale} />;
 }

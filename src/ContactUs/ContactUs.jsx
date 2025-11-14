@@ -62,7 +62,7 @@ export default function ContactPage() {
     setStatus(null);
     const v = validate();
     if (!v) {
-      setStatus({ type: "error", text: v });
+      setStatus({ type: "error", text: "Something is not correct" });
       return;
     }
     setLoading(true);
@@ -143,7 +143,7 @@ export default function ContactPage() {
                     role="status"
                     aria-live="polite"
                   >
-                    {status.text}
+                    {error.errorMessage}
                   </div>
                 )}
 

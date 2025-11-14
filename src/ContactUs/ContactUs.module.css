@@ -1,5 +1,5 @@
 :root {
-  --cyan: #0a84ff;
+  --cyan: #ffffff;
   --cyan-2: rgb(0, 162, 243);
   --glass: rgba(255, 255, 255, 1);
   --glass-2: rgba(255, 255, 255, 1);
@@ -90,7 +90,6 @@ body, html, #root { height: 100%; }
   overflow: hidden;
 }
 .card:hover {
-  transform: translateY(-10px) perspective(800px) rotateX(2deg) rotateY(2deg);
   box-shadow: 0 30px 60px rgba(0,210,255,0.25), 0 20px 40px rgba(0,0,0,0.35);
 }
 
@@ -171,7 +170,7 @@ body, html, #root { height: 100%; }
 /* actions */
 .actions { display:flex; gap:16px; align-items:center; margin-top:8px; flex-wrap:wrap; }
 .sendBtn {
-  background: linear-gradient(90deg, var(--cyan), var(--cyan-2));
+  background: linear-gradient(90deg, var(--cyan), #b5dcf9);
   color:#012228;
   padding:14px 20px;
   border-radius:14px;
